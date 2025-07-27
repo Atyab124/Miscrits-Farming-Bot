@@ -8,8 +8,8 @@ from utils import extract_text_from_screen_region, find_and_click_template_on_sc
 # =====================
 # USER CONFIGURABLE SETTINGS
 # =====================
-TARGET_MISCRIT_NAME = 'Light Tectonyx'
-PLATINUM_TRAINING = True
+TARGET_MISCRIT_NAME = 'Light Nanaslug'
+PLATINUM_TRAINING = False
 FARM_COOLDOWN = 20
 BATTLE_CHECK_WINDOW = 10
 REFERENCE_OBJECT_PATH = 'Insert_images/reference_image.png'
@@ -19,6 +19,37 @@ GOLD_DROP_PATH = 'reference_images/gold drop.png'
 OKAY_TEMPLATE_PATH = 'reference_images/okay.png'
 BATTLE_ENGINE_SCRIPT = 'battle_engine.py'
 # =====================
+
+def save_config_to_file():
+    """Save current configuration to config_file.txt"""
+    try:
+        with open('config_file.txt', 'w') as f:
+            f.write(f"{TARGET_MISCRIT_NAME}|{PLATINUM_TRAINING}")
+        print(f"Configuration saved: {TARGET_MISCRIT_NAME}, Platinum Training: {PLATINUM_TRAINING}")
+    except Exception as e:
+        print(f"Error saving configuration: {e}")
+
+def load_config_from_file():
+    """Load configuration from config_file.txt and return (target_name, platinum_training)"""
+    try:
+        with open('config_file.txt', 'r') as f:
+            content = f.read().strip()
+            if '|' in content:
+                target_name, platinum_training_str = content.split('|', 1)
+                platinum_training = platinum_training_str.lower() == 'true'
+                return target_name, platinum_training
+            else:
+                # Legacy format - just target name
+                return content, True  # Default to True for platinum training
+    except FileNotFoundError:
+        return TARGET_MISCRIT_NAME, PLATINUM_TRAINING  # Use defaults if file doesn't exist
+    except Exception as e:
+        print(f"Error loading configuration: {e}")
+        return TARGET_MISCRIT_NAME, PLATINUM_TRAINING  # Use defaults on error
+
+# Save current configuration to file
+save_config_to_file()
+print(f"Configuration saved to config_file.txt: {TARGET_MISCRIT_NAME}|{PLATINUM_TRAINING}")
 
 def detect_battle_from_turn_indicator(screenshot):
     """Detect if a battle has started by looking for the 'It's your turn!' indicator."""

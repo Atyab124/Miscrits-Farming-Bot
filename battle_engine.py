@@ -12,18 +12,33 @@ from utils import extract_text_from_screen_region, find_and_click_template_on_sc
 #    from autofarm import PLATINUM_TRAINING
 #except ImportError:
 #    PLATINUM_TRAINING = False  # Default value if import fails
-PLATINUM_TRAINING = True
+# PLATINUM_TRAINING is now loaded from config file
 
 # =====================
 # Helper Functions
 # =====================
+def read_config_from_file():
+    """Read both target miscrit name and platinum training from config file (set by autofarm.py)."""
+    try:
+        with open('config_file.txt', 'r') as f:
+            content = f.read().strip()
+            if '|' in content:
+                target_name, platinum_training_str = content.split('|', 1)
+                platinum_training = platinum_training_str.lower() == 'true'
+                return target_name, platinum_training
+            else:
+                # Legacy format - just target name
+                return content, False  # Default to False for platinum training
+    except FileNotFoundError:
+        return 'None', True  # Default fallback
+    except Exception as e:
+        print(f"Error reading config: {e}")
+        return 'None', True  # Default fallback
+
 def read_target_miscrit_from_config():
     """Read the target miscrit name from config file (set by autofarm.py)."""
-    try:
-        with open('current_target.txt', 'r') as f:
-            return f.read().strip()
-    except FileNotFoundError:
-        return 'Light Crickin'  # Default fallback
+    target_name, _ = read_config_from_file()
+    return target_name
 
 def load_target_encounter_counter():
     """Load the persistent encounter counter from file."""
@@ -41,15 +56,15 @@ def save_target_encounter_counter(counter):
 def check_and_update_target_miscrit(new_target_name):
     """Check if the target miscrit name has changed and update the config file if so."""
     try:
-        with open('current_target.txt', 'r') as f:
+        with open('config_file.txt', 'r') as f:
             old_target = f.read().strip()
         if old_target != new_target_name:
-            with open('current_target.txt', 'w') as f:
+            with open('config_file.txt', 'w') as f:
                 f.write(new_target_name)
             return True
         return False
     except FileNotFoundError:
-        with open('current_target.txt', 'w') as f:
+        with open('config_file.txt', 'w') as f:
             f.write(new_target_name)
         return False
 
@@ -118,7 +133,7 @@ def end_battle_and_handle_training():
             pyautogui.moveTo(588, 347, duration=0.2)
             pyautogui.click()
             time.sleep(5)
-            if PLATINUM_TRAINING:
+            if platinum_training_enabled:
                 pyautogui.moveTo(530, 786, duration=0.2)
                 pyautogui.click()
                 time.sleep(5)
@@ -208,8 +223,11 @@ attack_coords = [
     (840, 1025),  # Fourth attack
 ]
 turn_card_x, turn_card_y, turn_card_w, turn_card_h = 522, 965, 180, 25
-target_miscrit_name = read_target_miscrit_from_config()
+target_miscrit_name, platinum_training_enabled = read_config_from_file()
 target_miscrit_encounters = load_target_encounter_counter()
+
+print(f"Loaded configuration - Target: {target_miscrit_name}, Platinum Training: {platinum_training_enabled}")
+print(f"Configuration loaded successfully from config_file.txt")
 
 # --- ENEMY NAME DETECTION (ONCE PER BATTLE) ---
 screenshot = pyautogui.screenshot()
