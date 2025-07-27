@@ -9,7 +9,7 @@ from utils import extract_text_from_screen_region, find_and_click_template_on_sc
 # USER CONFIGURABLE SETTINGS
 # =====================
 TARGET_MISCRIT_NAME = 'Light Nanaslug'
-PLATINUM_TRAINING = False
+PLATINUM_TRAINING = True
 FARM_COOLDOWN = 20
 BATTLE_CHECK_WINDOW = 10
 REFERENCE_OBJECT_PATH = 'Insert_images/reference_image.png'

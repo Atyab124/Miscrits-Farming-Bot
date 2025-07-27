@@ -81,6 +81,7 @@ def execute_battle_move(move_index, attack_coords):
 def end_battle_and_handle_training():
     """End the battle by clicking Continue button and handle training sequence if needed."""
     continue_button_path = 'reference_images/Continue.png'
+    time.sleep(1)
     screenshot = pyautogui.screenshot()
     screenshot_np = np.array(screenshot)
     screenshot_bgr = cv2.cvtColor(screenshot_np, cv2.COLOR_RGB2BGR)
@@ -130,13 +131,13 @@ def end_battle_and_handle_training():
             pyautogui.click()
             time.sleep(1)
             # 5. Click train now
-            pyautogui.moveTo(588, 347, duration=0.2)
+            pyautogui.moveTo(600, 347, duration=0.2)
             pyautogui.click()
             time.sleep(5)
             if platinum_training_enabled:
                 pyautogui.moveTo(530, 786, duration=0.2)
                 pyautogui.click()
-                time.sleep(5)
+                time.sleep(3)
                 #Click continue
                 pyautogui.moveTo(579, 784, duration=0.2)
                 pyautogui.click()
@@ -162,6 +163,7 @@ def end_battle_and_handle_training():
                 pyautogui.click()
                 time.sleep(1)
             # 8. Click click cross
+            time.sleep(1)
             pyautogui.moveTo(850, 325, duration=0.2)
             pyautogui.click()
             time.sleep(0.5)
