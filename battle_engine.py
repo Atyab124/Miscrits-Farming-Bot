@@ -147,7 +147,7 @@ def end_battle_and_handle_training():
                 pyautogui.moveTo(681, 781, duration=0.2)
                 pyautogui.click()
                 time.sleep(1)
-            # 7. Check for and click continue button using OCR with hardcoded coordinates
+            # 7.1. Check for and click continue button using OCR with hardcoded coordinates
             continue_x, continue_y, continue_w, continue_h = 638, 660, 71, 20  # Adjust these coordinates as needed
             continue_screenshot = pyautogui.screenshot()
             continue_text, continue_area = extract_text_from_screen_region(continue_screenshot, continue_x, continue_y, continue_w, continue_h)
@@ -162,8 +162,12 @@ def end_battle_and_handle_training():
                 pyautogui.moveTo(center_x, center_y, duration=0.2)
                 pyautogui.click()
                 time.sleep(1)
+            # 7.2. Check for 'okay' using template matching
+            screenshot_bgr2, _ = convert_screenshot_to_bgr()
+            if find_and_click_template_on_screen(screenshot_bgr2, 'reference_images/Okay.png'):
+                print("'Okay' detected with template matching and clicked.")
+                time.sleep(1)
             # 8. Click click cross
-            time.sleep(1)
             pyautogui.moveTo(850, 325, duration=0.2)
             pyautogui.click()
             time.sleep(0.5)
