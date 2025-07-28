@@ -1,6 +1,6 @@
 # Miscrits: World of Creatures - Automation Bot
 
-## Note: Readme written by AI, isnt completely accurate yet, enjoy :)
+### Note: This is not the final draft of the readme, minor inconsistencies can be expected.
 
 An intelligent automation bot for farming and battling in the Steam game "Miscrits: World of Creatures". This bot can automatically farm specific objects, engage in battles, capture target Miscrits, and handle post-battle training sequences.
 
