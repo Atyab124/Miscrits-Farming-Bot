@@ -1,1 +1,1 @@
-Light Nanaslug|False
+Light Nanaslug|True
