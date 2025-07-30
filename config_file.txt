@@ -1,1 +1,1 @@
-Light Nanaslug|True
+Light Bludger|False

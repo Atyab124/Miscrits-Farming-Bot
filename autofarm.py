@@ -8,8 +8,8 @@ from utils import extract_text_from_screen_region, find_and_click_template_on_sc
 # =====================
 # USER CONFIGURABLE SETTINGS
 # =====================
-TARGET_MISCRIT_NAME = 'Light Nanaslug'
-PLATINUM_TRAINING = True
+TARGET_MISCRIT_NAME = 'Light Bludger'
+PLATINUM_TRAINING = False
 FARM_COOLDOWN = 20
 BATTLE_CHECK_WINDOW = 15
 REFERENCE_OBJECT_PATH = 'Insert_images/reference_image.png'
